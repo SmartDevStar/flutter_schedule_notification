@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:schedulenotification/services/notification_service.dart';
-import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart' as picker;
+import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart'
+    as picker;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Flutter Schedule Notification'),
     );
   }
 }
@@ -37,7 +38,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   late final NotificationApi notificationApi;
   DateTime scheduleTime = DateTime.now();
-  int _counter = 0;
 
   void _incrementCounter() {
     tz.TZDateTime timeZoneDateTime = tz.TZDateTime.from(scheduleTime, tz.local);
@@ -53,19 +53,16 @@ class _MyHomePageState extends State<MyHomePage> {
       id: 291,
       title: 'Scheduled Notification',
       body: '$scheduleTime',
-      date: timeZoneDateTime.add(const Duration(minutes: 5)),
+      date: timeZoneDateTime.add(const Duration(minutes: 3)),
       payload: "",
     );
     notificationApi.showScheduledNotification(
       id: 293,
       title: 'Scheduled Notification',
       body: '$scheduleTime',
-      date: timeZoneDateTime.add(const Duration(minutes: 5)),
+      date: timeZoneDateTime.add(const Duration(minutes: 6)),
       payload: "",
     );
-    setState(() {
-      _counter++;
-    });
   }
 
   @override
@@ -90,32 +87,28 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: () {
                   picker.DatePicker.showDateTimePicker(
                     context,
-                    showTitleActions: true, 
+                    showTitleActions: true,
                     onChanged: (date) {
                       scheduleTime = date;
-                    }, 
+                    },
                     onConfirm: (date) {
                       scheduleTime = date;
                       print('confirm $scheduleTime');
-                    }, 
+                    },
                     currentTime: DateTime.now(),
                   );
                 },
                 child: const Text(
                   'show date time',
-                  style: TextStyle(color: Colors.blue),
+                  style: TextStyle(color: Colors.blue, fontSize: 18),
                 )),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.send),
       ),
     );
   }
